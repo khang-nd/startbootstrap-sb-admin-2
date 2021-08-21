@@ -53,4 +53,49 @@
     e.preventDefault();
   });
 
+  // Gifts
+  var levels = $(".btn-level");
+  var currLevel = ".btn-level--current";
+  var inactive = ".btn-level--inactive";
+  var prev = ".card-gift .btn-prev";
+  var next = ".card-gift .btn-next";
+  function validateNavigation(index) {
+    $(prev + "," + next).attr("disabled", false);
+    if (index === 0)
+      $(prev).attr("disabled", true);
+    if (index === levels.length - 1)
+      $(next).attr("disabled", true);
+  }
+  function navigate() {
+    var direction = $(this).hasClass("btn-next") ? "next" : "prev";
+    var index = levels.index($(currLevel));
+    var nextLevel = levels[direction === "next" ? ++index : --index];    
+
+    if (direction === "next")
+      $(nextLevel).removeClass(inactive.slice(1));
+    else
+      $(currLevel).addClass(inactive.slice(1));
+    $(currLevel).removeClass(currLevel.slice(1));
+    $(nextLevel).addClass(currLevel.slice(1));
+
+    validateNavigation(index);
+  }
+  $(prev).on("click", navigate);
+  $(next).on("click", navigate);
+  $(".btn-level").on("click", function() {
+    var index = levels.index($(this));
+    
+    levels.removeClass(currLevel.slice(1));
+    levels.addClass(inactive.slice(1));
+    for(var i = 0; i <= index; i++) {
+      $(levels[i]).removeClass(inactive.slice(1));
+    }
+    $(levels[index]).addClass(currLevel.slice(1));
+
+    validateNavigation(index);
+  });
+  $(".btn-gift").on("click", function() {
+    alert("Tada! You opened " + this.textContent);
+  });
+
 })(jQuery); // End of use strict
