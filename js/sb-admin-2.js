@@ -54,11 +54,100 @@
   });
 
   // Gifts
+  var Gift = {
+    1: [
+      {
+        icon: null,
+        title: "Giftbox 1",
+        action: function() {
+          alert(this.textContent);
+        }
+      }
+    ],
+    2: [
+      {
+        icon: null,
+        title: "Giftbox 2",
+        action: function() {
+          alert(this.textContent);
+        }
+      },
+      {
+        icon: null,
+        title: "Giftbox 3",
+        disabled: true,
+        action: function() {
+          alert(this.textContent);
+        }
+      }
+    ],
+    3: [
+      {
+        icon: null,
+        title: "Giftbox 4",
+        action: function() {
+          alert(this.textContent);
+        }
+      },
+      {
+        icon: null,
+        title: "Giftbox 5",
+        disabled: true,
+        action: function() {
+          alert(this.textContent);
+        }
+      },
+      {
+        icon: null,
+        title: "Giftbox 6",
+        disabled: true,
+        action: function() {
+          alert(this.textContent);
+        }
+      }
+    ],
+    4: [
+      {
+        icon: null,
+        title: "Giftbox 7",
+        action: function() {
+          alert(this.textContent);
+        }
+      },
+      {
+        icon: null,
+        title: "Giftbox 8",
+        action: function() {
+          alert(this.textContent);
+        }
+      },
+    ],
+  }
+  var gifts = $("#gifts");
   var levels = $(".btn-level");
   var currLevel = ".btn-level--current";
   var inactive = ".btn-level--inactive";
   var prev = ".card-gift .btn-prev";
   var next = ".card-gift .btn-next";
+  var display = "d-sm-block d-none";
+
+  function renderGift({ icon, title, disabled, action }) {
+    var _icon = icon || "<i class='fas fa-gift fa-2x mb-1'></i>";
+    return $("<button />", {
+      class: "btn btn-gift " + (disabled ? "btn-secondary" : "btn-primary"),
+      click: action,
+      disabled,
+      html: _icon + "<span>" + title + "</span>"
+    });
+  };
+
+  function renderGifts(level) {
+    gifts.empty();
+    gifts.append(Gift[level].map(renderGift));
+  }
+
+  renderGifts(1);
+
   function validateNavigation(index) {
     $(prev + "," + next).attr("disabled", false);
     if (index === 0)
@@ -66,6 +155,7 @@
     if (index === levels.length - 1)
       $(next).attr("disabled", true);
   }
+
   function navigate() {
     var direction = $(this).hasClass("btn-next") ? "next" : "prev";
     var index = levels.index($(currLevel));
@@ -78,8 +168,12 @@
     $(currLevel).removeClass(currLevel.slice(1));
     $(nextLevel).addClass(currLevel.slice(1));
 
+    $(".btn-level").parent().addClass(display);
+    $(nextLevel).parent().removeClass(display);
+    renderGifts(index + 1);
     validateNavigation(index);
   }
+
   $(prev).on("click", navigate);
   $(next).on("click", navigate);
   $(".btn-level").on("click", function() {
@@ -92,10 +186,10 @@
     }
     $(levels[index]).addClass(currLevel.slice(1));
 
+    $(".btn-level").parent().addClass(display);
+    $(levels[index]).parent().removeClass(display);
+    renderGifts(index + 1);
     validateNavigation(index);
-  });
-  $(".btn-gift").on("click", function() {
-    alert("Tada! You opened " + this.textContent);
   });
 
 })(jQuery); // End of use strict

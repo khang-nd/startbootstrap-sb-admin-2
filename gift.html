@@ -178,7 +178,7 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
+                        <li class="nav-item dropdown no-arrow d-sm-block d-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
@@ -367,28 +367,28 @@
                                         Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                                     </p>
                                     <div class="row mt-4">
-                                        <div class="col-3">
+                                        <div class="col-sm-3">
                                             <button
                                                 class="btn btn-circle btn-lg btn-primary btn-level btn-level--current">
                                                 <i class="fas fa-gift"></i>
                                             </button>
                                             <label class="d-block">Level 1</label>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-sm-3 d-sm-block d-none">
                                             <button
                                                 class="btn btn-circle btn-lg btn-primary btn-level btn-level--inactive">
                                                 <i class="fas fa-gift"></i>
                                             </button>
                                             <label class="d-block">Level 2</label>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-sm-3 d-sm-block d-none">
                                             <button
                                                 class="btn btn-circle btn-lg btn-primary btn-level btn-level--inactive">
                                                 <i class="fas fa-gift"></i>
                                             </button>
                                             <label class="d-block">Level 3</label>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-sm-3 d-sm-block d-none">
                                             <button
                                                 class="btn btn-circle btn-lg btn-primary btn-level btn-level--inactive btn-level--last">
                                                 <i class="fas fa-gift"></i>
@@ -396,24 +396,11 @@
                                             <label class="d-block">Level 4</label>
                                         </div>
                                     </div>
-                                    <div class="my-5">
-                                        <button class="btn btn-primary btn-gift">
-                                            <i class="fas fa-gift fa-2x mb-1"></i>
-                                            Giftbox 1
-                                        </button>
-                                        <button class="btn btn-primary btn-gift">
-                                            <i class="fas fa-gift fa-2x mb-1"></i>
-                                            Giftbox 2
-                                        </button>
-                                        <button class="btn btn-secondary btn-gift" disabled>
-                                            <i class="fas fa-gift fa-2x mb-1"></i>
-                                            Giftbox 3
-                                        </button>
-                                    </div>
+                                    <div class="my-5" id="gifts"></div>
                                 </div>
                                 <div class="card-footer">
-                                    <button class="btn btn-prev btn-outline-dark" disabled>Previous</button>
-                                    <button class="btn btn-next btn-primary">Next</button>
+                                    <button class="btn btn-prev col-sm-3 btn-outline-dark" disabled>Previous</button>
+                                    <button class="btn btn-next col-sm-3 btn-primary">Next</button>
                                 </div>
                             </div>
                         </div>
