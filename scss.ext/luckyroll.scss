@@ -1,0 +1,86 @@
+$size: 150px;
+$banner: 1.5rem;
+
+.lucky {
+  &__header {
+    display: flex;
+    color: #fff;
+    transform: rotate(90deg);
+    transform-origin: bottom left;
+    width: $size * 2;
+    height: $banner;
+    margin-top: -$banner;
+
+    > div {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(-1);
+    }
+
+    .free {
+      background: #1b80b2;
+    }
+
+    .paid {
+      background: #f37527;
+    }
+  }
+
+  &__row {
+    min-height: $size;
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    border-top: 0;
+    border-bottom: 0;
+    padding: 0.2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    &.free {
+      background: #75c3ea;
+    }
+
+    &.paid {
+      background: #f28a4b;
+    }
+
+    img {
+      width: 50px;
+      background: black;
+      border: 2px solid #17a673;
+    }
+  }
+
+  &-roll {
+    width: 200px;
+  }
+}
+
+// Override SplideJS styles
+.splide {
+  margin-left: $banner;
+
+  &:hover &__arrow {
+    opacity: 1;
+  }
+
+  &__arrow {
+    background: #fff;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &__pagination {
+    position: unset;
+    transform: none;
+    left: 0;
+    width: calc(100% - $banner);
+
+    &__page.is-active {
+      background: #999;
+    }
+  }
+}

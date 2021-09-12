@@ -77,12 +77,18 @@ function modules() {
       '!./node_modules/jquery/dist/core.js'
     ])
     .pipe(gulp.dest('./vendor/jquery'));
-  return merge(bootstrapJS, bootstrapSCSS, chartJS, dataTables, fontAwesome, jquery, jqueryEasing);
+  // SplideJS
+  var splidejs = gulp
+    .src("./node_modules/@splidejs/splide/dist/*/*")
+    .pipe(gulp.dest("./vendor/splidejs"));
+
+  return merge(bootstrapJS, bootstrapSCSS, chartJS,
+    dataTables, fontAwesome, jquery, jqueryEasing, splidejs);
 }
 
 // CSS task
 function css() {
-  return gulp
+  var core = gulp
     .src("./scss/**/*.scss")
     .pipe(plumber())
     .pipe(sass({
@@ -103,6 +109,17 @@ function css() {
     .pipe(cleanCSS())
     .pipe(gulp.dest("./css"))
     .pipe(browsersync.stream());
+  
+  var ext = gulp.src("./scss.ext/*.scss")
+    .pipe(plumber())
+    .pipe(sass())
+    .pipe(gulp.dest("./css"))
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(cleanCSS())
+    .pipe(gulp.dest("./css"))
+    .pipe(browsersync.stream());
+  
+  return merge(core, ext);
 }
 
 // JS task
@@ -125,7 +142,7 @@ function js() {
 
 // Watch files
 function watchFiles() {
-  gulp.watch("./scss/**/*", css);
+  gulp.watch(["./scss/**/*", "./scss.ext/*"], css);
   gulp.watch(["./js/**/*", "!./js/**/*.min.js"], js);
   gulp.watch("./**/*.html", browserSyncReload);
 }
