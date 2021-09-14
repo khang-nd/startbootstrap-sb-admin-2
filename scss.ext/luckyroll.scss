@@ -2,14 +2,19 @@ $size: 150px;
 $banner: 1.5rem;
 
 .lucky {
+  &__container {
+    position: relative;
+  }
+
   &__header {
     display: flex;
     color: #fff;
+    position: absolute;
+    z-index: 1;
     transform: rotate(90deg);
     transform-origin: bottom left;
     width: $size * 2;
     height: $banner;
-    margin-top: -$banner;
 
     > div {
       width: 50%;
@@ -26,6 +31,12 @@ $banner: 1.5rem;
     .paid {
       background: #f37527;
     }
+  }
+
+  &__tier {
+    text-align: center;
+    background: #333;
+    color: #fff;
   }
 
   &__row {
@@ -51,6 +62,25 @@ $banner: 1.5rem;
       width: 50px;
       background: black;
       border: 2px solid #17a673;
+    }
+  }
+
+  &__loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      color: #fff;
+      font-size: 5em;
+      animation: rolling 1s ease infinite;
     }
   }
 
@@ -82,5 +112,23 @@ $banner: 1.5rem;
     &__page.is-active {
       background: #999;
     }
+  }
+}
+
+@keyframes rolling {
+  0% {
+    transform: rotate(15deg);
+  }
+  25% {
+    transform: rotate(-15deg) scale(1.5);
+  }
+  50% {
+    transform: rotate(15deg) scale(1.5);
+  }
+  75% {
+    transform: rotate(-15deg) scale(1.5);
+  }
+  100% {
+    transform: rotate(15deg);
   }
 }

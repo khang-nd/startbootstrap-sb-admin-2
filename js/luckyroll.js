@@ -1,5 +1,6 @@
 const container = ".splide";
 const $list = $(".splide__list");
+const $track = $(".splide__track");
 const $roll = $(".lucky-roll");
 const $claim = $(".lucky-claim");
 
@@ -142,8 +143,7 @@ const rewards = [
     ],
   },
   {
-    Free: [
-    ],
+    Free: [],
     Paid: [
       {
         name: "Dark Hatchling",
@@ -211,9 +211,10 @@ function random(max) {
   return Math.round(Math.random() * max);
 }
 
-function renderSlide(rewardData) {
+function renderSlide(rewardData, i) {
   const { Free, Paid } = rewardData;
   return `<li class="splide__slide">
+    <div class="lucky__tier">${i + 1}</div>
     <div class="lucky__row free">
       ${Free.map(
         (reward) => `<img src="${reward.img}" alt="${reward.name}" />`
@@ -227,40 +228,47 @@ function renderSlide(rewardData) {
   </li>`;
 }
 
-function roll(splider) {
+function roll() {
   const doRoll = () =>
     new Promise((resolve) => {
-      const { easing } = splider.options;
-      const timer = setInterval(() => splider.go("+", false), 1);
-      splider.options = { easing: "linear" };
+      const loader = $("<div>", {
+        class: "lucky__loader",
+        append: $("<i class='fas fa-gift'></i>"),
+        appendTo: $track,
+      });
       setTimeout(() => {
-        clearInterval(timer);
-        splider.options = { easing };
+        loader.remove();
         resolve();
-      }, 5000);
+      }, 4000);
     });
 
-  return () => {
-    $roll.attr("disabled", true);
-    doRoll().then(() => {
-      // finished roll
-      const index = random(rewards.length - 1);
-      const { Free, Paid } = rewards[index];
-      alert(`You have rolled rewards from column ${index}\n
-      + Free: ${Free.map((reward) => reward.name).join(", ")}\n
-      + Paid: ${Paid.map((reward) => reward.name).join(", ")}`);
-      rolledRewards.Free = [...rolledRewards.Free, ...Free];
-      rolledRewards.Paid = [...rolledRewards.Paid, ...Paid];
-      $roll.attr("disabled", false);
-    });
-  };
+  $roll.attr("disabled", true);
+  doRoll().then(() => {
+    // finished roll
+    const index = random(rewards.length - 1);
+    const { Free, Paid } = rewards[index];
+    console.log(
+      "You have rolled rewards from Tier " + (index + 1),
+      "\nFree",
+      Free,
+      "\nPaid",
+      Paid
+    );
+    rolledRewards.Free = [...rolledRewards.Free, ...Free];
+    rolledRewards.Paid = [...rolledRewards.Paid, ...Paid];
+    $roll.attr("disabled", false);
+  });
 }
 
 function claim() {
   const { Free, Paid } = rolledRewards;
-  alert(`All rolled rewards to be submitted:\n
-    + Free: ${Free.map((reward) => reward.name).join(", ")}\n
-    + Paid: ${Paid.map((reward) => reward.name).join(", ")}\n`);
+  console.log(
+    "All rolled rewards to be submitted:",
+    "\nFree",
+    Free,
+    "\nPaid",
+    Paid
+  );
   rolledRewards = { Free: [], Paid: [] }; // reset after submission
 }
 
@@ -269,7 +277,7 @@ $(function () {
   $list.html(rewards.map(renderSlide).join(""));
 
   // setup splideJS
-  const splider = new Splide(container, {
+  new Splide(container, {
     type: "loop",
     perPage: 6,
     breakpoints: {
@@ -282,9 +290,8 @@ $(function () {
         perMove: 3,
       },
     },
-  });
-  splider.mount();
+  }).mount();
 
-  $roll.on("click", roll(splider));
+  $roll.on("click", roll);
   $claim.on("click", claim);
 });
