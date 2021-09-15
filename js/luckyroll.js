@@ -1,18 +1,20 @@
 const container = ".splide";
+const rows = ".lucky__rows";
 const $list = $(".splide__list");
 const $track = $(".splide__track");
 const $roll = $(".lucky-roll");
 const $claim = $(".lucky-claim");
 
-let rolledRewards = {
-  Free: [],
-  Paid: [],
-};
+let allRewards = [];
 
 // DUMMY DATA
 const rewards = [
   {
     Free: [
+      {
+        name: "Grim Axes",
+        img: "https://media.fortniteapi.io/images/1658810c67e1fe6311588468fedc68f0/transparent.png",
+      },
       {
         name: "Pickaxe",
         img: "https://i.pinimg.com/originals/63/aa/c4/63aac4bf25bc374a0b2e1c72436051d8.png",
@@ -36,11 +38,23 @@ const rewards = [
   {
     Free: [
       {
+        name: "Grim Axes",
+        img: "https://media.fortniteapi.io/images/1658810c67e1fe6311588468fedc68f0/transparent.png",
+      },
+      {
         name: "Hammer",
         img: "https://media.fortniteapi.io/images/05a4b5341b15ee1186be825311d823a4/transparent.png",
       },
     ],
     Paid: [
+      {
+        name: "Dark Male",
+        img: "https://fortniteinsider.com/wp-content/uploads/2019/10/Fortnite-v11.01-Leaked-Skin-Dark-Rex-min.png",
+      },
+      {
+        name: "Dark Female",
+        img: "https://fortniteinsider.com/wp-content/uploads/2019/10/Fortnite-v11.01-Leaked-Skin-Dark-Tricera-Ops-min.png",
+      },
       {
         name: "Death Scythe",
         img: "https://trackercdn.com/legacycdn/fortnite/1A4E11902_large.png",
@@ -213,17 +227,33 @@ function random(max) {
 
 function renderSlide(rewardData, i) {
   const { Free, Paid } = rewardData;
+
+  function renderReward(reward) {
+    return `<img src="${reward.img}" alt="${reward.name}" />`;
+  }
+
+  function renderDummies() {
+    return Array.apply(null, Array(5))
+      .map(
+        () => `
+      <div class="lucky__row free">${Free.map(renderReward)}</div>
+      <div class="lucky__row paid">${Paid.map(renderReward)}</div>`
+      )
+      .join("");
+  }
+
   return `<li class="splide__slide">
     <div class="lucky__tier">${i + 1}</div>
-    <div class="lucky__row free">
-      ${Free.map(
-        (reward) => `<img src="${reward.img}" alt="${reward.name}" />`
-      )}
-    </div>
-    <div class="lucky__row paid">
-      ${Paid.map(
-        (reward) => `<img src="${reward.img}" alt="${reward.name}" />`
-      )}
+    <div class="lucky__roller">
+      <div class="${rows.slice(1)}">
+        <div class="lucky__row free">
+          ${Free.map(renderReward).join("")}
+        </div>
+        <div class="lucky__row paid">
+          ${Paid.map(renderReward).join("")}
+        </div>
+        ${renderDummies()}
+      </div>
     </div>
   </li>`;
 }
@@ -231,45 +261,39 @@ function renderSlide(rewardData, i) {
 function roll() {
   const doRoll = () =>
     new Promise((resolve) => {
-      const loader = $("<div>", {
-        class: "lucky__loader",
-        append: $("<i class='fas fa-gift'></i>"),
-        appendTo: $track,
-      });
+      $roll.attr("disabled", true);
+      $(rows).addClass("rolling");
       setTimeout(() => {
-        loader.remove();
+        $roll.attr("disabled", false);
+        $(rows).removeClass("rolling");
         resolve();
-      }, 4000);
+      }, 5000);
     });
 
-  $roll.attr("disabled", true);
   doRoll().then(() => {
-    // finished roll
-    const index = random(rewards.length - 1);
-    const { Free, Paid } = rewards[index];
-    console.log(
-      "You have rolled rewards from Tier " + (index + 1),
-      "\nFree",
-      Free,
-      "\nPaid",
-      Paid
-    );
-    rolledRewards.Free = [...rolledRewards.Free, ...Free];
-    rolledRewards.Paid = [...rolledRewards.Paid, ...Paid];
-    $roll.attr("disabled", false);
+    const rolledRewards = [];
+    rewards.forEach((reward) => {
+      const { Free, Paid } = reward;
+      const freeCount = random(Free.length - 1);
+      const paidCount = random(Paid.length - 1);
+      const free = [];
+      const paid = [];
+      for (let i = 0; i < freeCount; i++) {
+        free.push(Free[random(freeCount)]);
+      }
+      for (let i = 0; i < paidCount; i++) {
+        paid.push(Paid[random(paidCount)]);
+      }
+      rolledRewards.push({ free, paid });
+    });
+    console.log(rolledRewards);
+    allRewards.push([...rolledRewards]);
   });
 }
 
 function claim() {
-  const { Free, Paid } = rolledRewards;
-  console.log(
-    "All rolled rewards to be submitted:",
-    "\nFree",
-    Free,
-    "\nPaid",
-    Paid
-  );
-  rolledRewards = { Free: [], Paid: [] }; // reset after submission
+  console.log(allRewards);
+  allRewards = []; // reset after submission
 }
 
 $(function () {

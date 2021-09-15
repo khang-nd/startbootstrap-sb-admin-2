@@ -24,42 +24,34 @@
 .lucky__tier {
   text-align: center;
   background: #333;
-  color: #fff; }
+  color: #fff;
+  height: 26px; }
 
 .lucky__row {
-  min-height: 150px;
+  height: 150px;
   border: 2px solid rgba(0, 0, 0, 0.15);
   border-top: 0;
   border-bottom: 0;
   padding: 0.2rem 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center; }
   .lucky__row.free {
     background: #75c3ea; }
   .lucky__row.paid {
     background: #f28a4b; }
   .lucky__row img {
-    width: 50px;
+    width: 40%;
     background: black;
     border: 2px solid #17a673; }
 
-.lucky__loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center; }
-  .lucky__loader i {
-    color: #fff;
-    font-size: 5em;
-    animation: rolling 1s ease infinite; }
+.lucky__roller {
+  height: 300px;
+  overflow: hidden; }
+
+.lucky__rows.rolling {
+  animation: rolling 0.5s infinite linear; }
 
 .lucky-roll {
   width: 200px; }
@@ -81,13 +73,5 @@
       background: #999; }
 
 @keyframes rolling {
-  0% {
-    transform: rotate(15deg); }
-  25% {
-    transform: rotate(-15deg) scale(1.5); }
   50% {
-    transform: rotate(15deg) scale(1.5); }
-  75% {
-    transform: rotate(-15deg) scale(1.5); }
-  100% {
-    transform: rotate(15deg); } }
+    transform: translateY(-50%); } }
