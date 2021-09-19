@@ -14,10 +14,12 @@ const rewards = [
       {
         name: "Grim Axes",
         img: "https://media.fortniteapi.io/images/1658810c67e1fe6311588468fedc68f0/transparent.png",
+        size: 60,
       },
       {
         name: "Pickaxe",
         img: "https://i.pinimg.com/originals/63/aa/c4/63aac4bf25bc374a0b2e1c72436051d8.png",
+        size: 60,
       },
       {
         name: "Slim Sword",
@@ -28,6 +30,7 @@ const rewards = [
       {
         name: "Battle Hammer",
         img: "https://media.fortniteapi.io/images/cb289e7d4ea7187a38a1d07cbcc28907/transparent.png",
+        size: 60,
       },
       {
         name: "Iron Wings",
@@ -221,6 +224,22 @@ const rewards = [
   },
 ];
 
+// config amount
+const amount = [
+  { Free: 2, Paid: 1 },
+  { Free: 1, Paid: 2 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+  { Free: 1, Paid: 1 },
+];
+
 function random(max) {
   return Math.round(Math.random() * max);
 }
@@ -229,7 +248,7 @@ function renderSlide(rewardData, i) {
   const { Free, Paid } = rewardData;
 
   function renderReward(reward) {
-    return `<img src="${reward.img}" alt="${reward.name}" />`;
+    return `<img src="${reward.img}" alt="${reward.name}" style="width:${reward.size}px" />`;
   }
 
   function renderDummies() {
@@ -272,10 +291,10 @@ function roll() {
 
   doRoll().then(() => {
     const rolledRewards = [];
-    rewards.forEach((reward) => {
+    rewards.forEach((reward, i) => {
       const { Free, Paid } = reward;
-      const freeCount = random(Free.length - 1);
-      const paidCount = random(Paid.length - 1);
+      const freeCount = amount[i].Free;
+      const paidCount = amount[i].Paid;
       const free = [];
       const paid = [];
       for (let i = 0; i < freeCount; i++) {
