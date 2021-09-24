@@ -50,9 +50,6 @@
   height: 300px;
   overflow: hidden; }
 
-.lucky__rows.rolling {
-  animation: rolling 0.5s infinite linear; }
-
 .lucky-roll {
   width: 200px; }
 
@@ -73,5 +70,5 @@
       background: #999; }
 
 @keyframes rolling {
-  50% {
+  100% {
     transform: translateY(-50%); } }

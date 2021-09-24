@@ -72,10 +72,6 @@ $banner: 1.5rem;
     overflow: hidden;
   }
 
-  &__rows.rolling {
-    animation: rolling 0.5s infinite linear;
-  }
-
   &-roll {
     width: 200px;
   }
@@ -108,7 +104,7 @@ $banner: 1.5rem;
 }
 
 @keyframes rolling {
-  50% {
+  100% {
     transform: translateY(-50%);
   }
 }

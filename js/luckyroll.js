@@ -280,13 +280,21 @@ function renderSlide(rewardData, i) {
 function roll() {
   const doRoll = () =>
     new Promise((resolve) => {
+      let max = 0;
       $roll.attr("disabled", true);
-      $(rows).addClass("rolling");
+      $(rows)
+        .css("animation", "rolling 0.8s 6 linear")
+        .each((_, row) => {
+          const delay = Math.random() * 1;
+          max = delay > max ? delay : max;
+          $(row).css("animation-delay", delay + "s");
+        });
+      const waitTime = (0.8 * 6 + max) * 1000;
       setTimeout(() => {
         $roll.attr("disabled", false);
-        $(rows).removeClass("rolling");
+        $(rows).css("animation", "");
         resolve();
-      }, 5000);
+      }, waitTime);
     });
 
   doRoll().then(() => {
