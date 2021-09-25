@@ -251,13 +251,13 @@ function renderSlide(rewardData, i) {
     return `<img src="${reward.img}" alt="${reward.name}" style="width:${reward.size}px" />`;
   }
 
-  function renderDummies() {
+  function renderDummies(type) {
+    const row =
+      type === "free"
+        ? `<div class="lucky__row free">${Free.map(renderReward)}</div>`
+        : `<div class="lucky__row paid">${Paid.map(renderReward)}</div>`;
     return Array.apply(null, Array(5))
-      .map(
-        () => `
-      <div class="lucky__row free">${Free.map(renderReward)}</div>
-      <div class="lucky__row paid">${Paid.map(renderReward)}</div>`
-      )
+      .map(() => row)
       .join("");
   }
 
@@ -268,10 +268,15 @@ function renderSlide(rewardData, i) {
         <div class="lucky__row free">
           ${Free.map(renderReward).join("")}
         </div>
+        ${renderDummies("free")}
+      </div>
+    </div>
+    <div class="lucky__roller">
+      <div class="${rows.slice(1)}">
         <div class="lucky__row paid">
           ${Paid.map(renderReward).join("")}
         </div>
-        ${renderDummies()}
+        ${renderDummies("paid")}
       </div>
     </div>
   </li>`;
