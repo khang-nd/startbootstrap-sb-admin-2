@@ -25,7 +25,7 @@
   text-align: center;
   background: #333;
   color: #fff;
-  height: 26px; }
+  height: 1.5rem; }
 
 .lucky__row {
   height: 150px;
@@ -35,14 +35,15 @@
   padding: 0.2rem 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center; }
   .lucky__row.free {
     background: #75c3ea; }
   .lucky__row.paid {
     background: #f28a4b; }
   .lucky__row img {
-    width: 50px;
+    width: 32px;
     background: black;
     border: 2px solid #17a673; }
 

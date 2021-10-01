@@ -14,12 +14,10 @@ const rewards = [
       {
         name: "Grim Axes",
         img: "https://media.fortniteapi.io/images/1658810c67e1fe6311588468fedc68f0/transparent.png",
-        size: 60,
       },
       {
         name: "Pickaxe",
         img: "https://i.pinimg.com/originals/63/aa/c4/63aac4bf25bc374a0b2e1c72436051d8.png",
-        size: 60,
       },
       {
         name: "Slim Sword",
@@ -30,7 +28,6 @@ const rewards = [
       {
         name: "Battle Hammer",
         img: "https://media.fortniteapi.io/images/cb289e7d4ea7187a38a1d07cbcc28907/transparent.png",
-        size: 60,
       },
       {
         name: "Iron Wings",
@@ -248,16 +245,18 @@ function renderSlide(rewardData, i) {
   const { Free, Paid } = rewardData;
 
   function renderReward(reward) {
-    return `<img src="${reward.img}" alt="${reward.name}" style="width:${reward.size}px" />`;
+    return `<img src="${reward.img}" alt="${reward.name}" />`;
+  }
+
+  function renderRow(type) {
+    return type === "free"
+      ? `<div class="lucky__row free">${Free.map(renderReward).join("")}</div>`
+      : `<div class="lucky__row paid">${Paid.map(renderReward).join("")}</div>`;
   }
 
   function renderDummies(type) {
-    const row =
-      type === "free"
-        ? `<div class="lucky__row free">${Free.map(renderReward)}</div>`
-        : `<div class="lucky__row paid">${Paid.map(renderReward)}</div>`;
     return Array.apply(null, Array(5))
-      .map(() => row)
+      .map(() => renderRow(type))
       .join("");
   }
 
@@ -265,18 +264,14 @@ function renderSlide(rewardData, i) {
     <div class="lucky__tier">${i + 1}</div>
     <div class="lucky__roller">
       <div class="${rows.slice(1)}">
-        <div class="lucky__row free">
-          ${Free.map(renderReward).join("")}
-        </div>
+        ${renderRow("free")}
         ${renderDummies("free")}
       </div>
     </div>
     <div class="lucky__roller">
       <div class="${rows.slice(1)}">
-        <div class="lucky__row paid">
-          ${Paid.map(renderReward).join("")}
-        </div>
-        ${renderDummies("paid")}
+      ${renderRow("paid")}
+      ${renderDummies("paid")}
       </div>
     </div>
   </li>`;
@@ -335,13 +330,17 @@ $(function () {
   // setup splideJS
   new Splide(container, {
     type: "loop",
-    perPage: 6,
+    perPage: 9,
     breakpoints: {
-      840: {
+      1000: {
+        perPage: 6,
+        perMove: 6,
+      },
+      800: {
         perPage: 4,
         perMove: 4,
       },
-      420: {
+      400: {
         perPage: 3,
         perMove: 3,
       },

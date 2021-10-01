@@ -1,5 +1,4 @@
 $size: 300px;
-$tier: 26px;
 $banner: 1.5rem;
 
 .lucky {
@@ -38,7 +37,7 @@ $banner: 1.5rem;
     text-align: center;
     background: #333;
     color: #fff;
-    height: $tier;
+    height: $banner;
   }
 
   &__row {
@@ -49,7 +48,8 @@ $banner: 1.5rem;
     padding: 0.2rem 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
 
     &.free {
@@ -61,7 +61,7 @@ $banner: 1.5rem;
     }
 
     img {
-      width: 50px;
+      width: 32px;
       background: black;
       border: 2px solid #17a673;
     }
